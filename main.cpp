@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 // validasi digit angka
@@ -22,44 +23,51 @@ string eja (int angka) {
     // array untuk menyimpan ejaan
     string ejaan [] = {"", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan"};
 
+
+
     // hasil ejaan
     // satuan
-    if (angka < 10) {
-        cout << ejaan[angka];
+    if (angka < 10 && angka > 0) {
+        return ejaan[angka];
     }
 
     // belasan
     if (angka == 11) {
-        cout << "Sebelas";
+        return "Sebelas";
     } else if (angka > 10 && angka < 20) {
-        cout  << ejaan[angka-10] << "Belas";
+        return ejaan[angka-10] + " Belas";
     }
 
     // puluhan
     if (angka == 10) {
-        cout << "Sepuluh";
+        return "Sepuluh";
     } else if (angka > 19 && angka < 100) {
-        cout << ejaan[angka / 10] << " Puluh " << ejaan[angka % 10];
+        return ejaan[angka / 10] + " Puluh" + ejaan[angka % 10];
     }
 
     // satu ratusan ( kurang dari dua ratus )
     if (angka >= 100 && angka < 200) {
-        cout << "Seratus " << eja(angka % 100);
+        return "Seratus " + eja(angka % 100);
     }
 
     // ratusan
     if (angka > 199 && angka < 1000) {
-        cout << eja(angka / 100) << " Ratus " << eja(angka % 100);
+        return eja(angka / 100) + " Ratus " + eja(angka % 100);
     }
 
     // satu ribuan
     if (angka >= 1000 && angka < 2000) {
-        cout << "Seribu " << eja(angka % 1000);
+        return "Seribu " + eja(angka % 1000);
     }
 
     // ribuan
     if (angka > 1999) {
-        cout << eja(angka / 1000) << " Ribu " << eja(angka % 1000);
+        return eja(angka / 1000) + " Ribu " + eja(angka % 1000);
+    }
+
+     // negatif
+    if(angka < 0) {
+        return "Negatif " + eja(-angka);
     }
 
     return "";
@@ -83,9 +91,22 @@ int main()
 
         // panggil fungsi pengeja
         cout << "Ejaan angka = " << angka << ", adalah = " << eja(angka);
+        string output = eja(angka);
         cout << endl << endl;
 
         cout << "=====ENDL=====" << endl << endl;
+
+        // tulis file eksternal
+        string filename("tmp.txt");
+        fstream fileout;
+        fileout.open(filename, std::ios_base::out);
+        if(!fileout.is_open()) {
+            cout << "Gagal membuka " << filename;
+        } else {
+            fileout << "Ejaan angka = " << angka << ", adalah = " << output;
+            cout << "Penulisan file sukses!";
+        }
+
 
         char t;
         cout << "Apakah ingin mengeja lagi? (y/n) : ";

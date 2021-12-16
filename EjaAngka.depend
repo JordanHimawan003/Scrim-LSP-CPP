@@ -1,4 +1,5 @@
 # depslib dependency file v1.0
-1639551620 source:d:\coding\learn lsp\ejaangka\main.cpp
+1639633955 source:d:\coding\learn lsp\ejaangka\main.cpp
 	<iostream>
+	<fstream>
 
